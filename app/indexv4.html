@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 编程助手 - v4</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+        .form-group textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-group select option {
+            background: #1a1a2e;
+            color: white;
+        }
+        button {
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+        .score {
+            display: inline-block;
+            background: linear-gradient(135deg, #00d4ff 0%, #7b2cbf 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+        .dimension {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .dimension-name {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+        .dimension-score {
+            color: #00d4ff;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .list-group {
+            margin-top: 25px;
+        }
+        .list-group h4 {
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+        .list-group ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .list-group li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+        }
+        .list-group.strengths li {
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #00ff88;
+        }
+        .list-group.improvements li {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+        }
+        .suggestions {
+            margin-top: 25px;
+        }
+        .suggestions h4 {
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .suggestions ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .suggestions li {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+        .code-block {
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        .code-block h4 {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 12px;
+        }
+        .code-block pre {
+            margin: 0;
+            color: #00d4ff;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI 编程助手 v4</h1>
+            <p>智能代码分析与优化建议</p>
+        </div>
+        
+        <div class="card">
+            <div class="form-group">
+                <label for="code">代码输入</label>
+                <textarea id="code" placeholder="请粘贴您的代码..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="lang">编程语言</label>
+                <select id="lang">
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="go">Go</option>
+                    <option value="cpp">C++</option>
+                </select>
+            </div>
+            
+            <button onclick="analyze()">开始分析</button>
+        </div>
+        
+        <div class="result" id="result">
+            <div class="score">总体评分：<span id="overall">85</span>/100</div>
+            
+            <h3 style="color: rgba(255,255,255,0.9); margin-bottom: 15px;">各维度评分</h3>
+            <div id="dimensions">
+                <div class="dimension">
+                    <span class="dimension-name">代码理解</span>
+                    <span class="dimension-score">90/100</span>
+                </div>
+                <div class="dimension">
+                    <span class="dimension-name">逻辑分析</span>
+                    <span class="dimension-score">80/100</span>
+                </div>
+                <div class="dimension">
+                    <span class="dimension-name">调试技巧</span>
+                    <span class="dimension-score">85/100</span>
+                </div>
+                <div class="dimension">
+                    <span class="dimension-name">最佳实践</span>
+                    <span class="dimension-score">85/100</span>
+                </div>
+                <div class="dimension">
+                    <span class="dimension-name">架构设计</span>
+                    <span class="dimension-score">80/100</span>
+                </div>
+            </div>
+            
+            <div class="list-group strengths">
+                <h4>✅ 优点</h4>
+                <ul>
+                    <li>代码结构清晰，逻辑明确</li>
+                    <li>变量命名符合规范</li>
+                    <li>函数功能单一，职责明确</li>
+                </ul>
+            </div>
+            
+            <div class="list-group improvements">
+                <h4>⚠️ 需要改进</h4>
+                <ul>
+                    <li>缺少类型提示</li>
+                    <li>建议添加文档字符串</li>
+                    <li>部分边界情况未处理</li>
+                </ul>
+            </div>
+            
+            <div class="suggestions">
+                <h4>💡 具体建议</h4>
+                <ul>
+                    <li>添加类型提示提高代码可读性</li>
+                    <li>为函数添加 docstring 文档</li>
+                    <li>添加错误处理和边界检查</li>
+                </ul>
+            </div>
+            
+            <div class="code-block">
+                <h4>📝 优化后代码</h4>
+                <pre id="optimized"># 优化后的代码示例</pre>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function analyze() {
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

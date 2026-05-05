@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 编程助手 - v2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .header p {
+            color: #666;
+        }
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+        .score {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .section {
+            margin-bottom: 15px;
+        }
+        .section h4 {
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .section ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .section li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h1>🤖 AI 编程助手 v2</h1>
+            <p>智能代码分析与优化建议</p>
+        </div>
+        
+        <textarea placeholder="请粘贴您的代码..."></textarea>
+        <button onclick="analyze()">分析代码</button>
+        
+        <div class="result" id="result">
+            <div class="score">总体评分：85/100</div>
+            
+            <div class="section">
+                <h4>✅ 优点</h4>
+                <ul>
+                    <li>代码结构清晰</li>
+                    <li>变量命名规范</li>
+                    <li>逻辑明确</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h4>⚠️ 需要改进</h4>
+                <ul>
+                    <li>缺少类型提示</li>
+                    <li>缺少文档注释</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h4>💡 建议</h4>
+                <ul>
+                    <li>添加类型提示</li>
+                    <li>添加 docstring</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function analyze() {
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

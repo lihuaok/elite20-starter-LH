@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 编程助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .main-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #666;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-group textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+        .result-section.show {
+            display: block;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+        .loading svg {
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .score {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .dimension {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .dimension:last-child {
+            border-bottom: none;
+        }
+        .dimension-name {
+            font-weight: 600;
+        }
+        .dimension-score {
+            color: #667eea;
+            font-weight: bold;
+        }
+        .strengths, .improvements {
+            margin-top: 20px;
+        }
+        .strengths h4, .improvements h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .strengths ul, .improvements ul {
+            list-style: none;
+        }
+        .strengths li, .improvements li {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .strengths li {
+            background: #d4edda;
+            color: #155724;
+        }
+        .improvements li {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .suggestions {
+            margin-top: 20px;
+        }
+        .suggestions h4 {
+            margin-bottom: 10px;
+        }
+        .suggestions li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .suggestions li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI 编程助手</h1>
+            <p>智能代码分析与优化建议</p>
+        </div>
+        
+        <div class="main-card">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('review')">代码评阅</button>
+                <button class="tab" onclick="switchTab('debug')">Bug 检测</button>
+                <button class="tab" onclick="switchTab('practice')">最佳实践</button>
+                <button class="tab" onclick="switchTab('architecture')">架构指导</button>
+            </div>
+            
+            <form id="codeForm">
+                <div class="form-group">
+                    <label for="codeInput">代码输入</label>
+                    <textarea id="codeInput" placeholder="请输入要分析的代码..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="language">编程语言</label>
+                    <select id="language">
+                        <option value="python">Python</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="java">Java</option>
+                        <option value="go">Go</option>
+                        <option value="cpp">C++</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn">开始分析</button>
+            </form>
+            
+            <div id="result" class="result-section">
+                <div class="loading" id="loading">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle class="path" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="60 60" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <p>正在分析代码...</p>
+                </div>
+                
+                <div id="analysisResult" style="display: none;">
+                    <div class="score">总体评分：<span id="overallScore">0</span>/100</div>
+                    
+                    <h3>各维度评分</h3>
+                    <div id="dimensions"></div>
+                    
+                    <div class="strengths">
+                        <h4>✅ 优点</h4>
+                        <ul id="strengthsList"></ul>
+                    </div>
+                    
+                    <div class="improvements">
+                        <h4>⚠️ 需要改进</h4>
+                        <ul id="improvementsList"></ul>
+                    </div>
+                    
+                    <div class="suggestions">
+                        <h4>💡 具体建议</h4>
+                        <ul id="suggestionsList"></ul>
+                    </div>
+                    
+                    <div class="code-block">
+                        <h4>📝 优化后代码</h4>
+                        <pre id="optimizedCode"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; color: white; margin-top: 20px; opacity: 0.8;">
+            <p>基于 DeepSeek 大模型驱动</p>
+        </div>
+    </div>
+    
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        document.getElementById('codeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const code = document.getElementById('codeInput').value;
+            const language = document.getElementById('language').value;
+            
+            if (!code.trim()) {
+                alert('请输入代码');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('result');
+            const loadingDiv = document.getElementById('loading');
+            const analysisDiv = document.getElementById('analysisResult');
+            
+            resultDiv.classList.add('show');
+            loadingDiv.style.display = 'block';
+            analysisDiv.style.display = 'none';
+            
+            const mockResult = generateMockResult(code);
+            
+            setTimeout(() => {
+                loadingDiv.style.display = 'none';
+                analysisDiv.style.display = 'block';
+                
+                document.getElementById('overallScore').textContent = mockResult.score;
+                
+                const dimensionsDiv = document.getElementById('dimensions');
+                dimensionsDiv.innerHTML = '';
+                Object.entries(mockResult.dimensions).forEach(([key, value]) => {
+                    const dimensionNames = {
+                        code_understanding: '代码理解',
+                        logic_analysis: '逻辑分析',
+                        debugging_techniques: '调试技巧',
+                        best_practices: '最佳实践',
+                        architecture_design: '架构设计'
+                    };
+                    const div = document.createElement('div');
+                    div.className = 'dimension';
+                    div.innerHTML = `<span class="dimension-name">${dimensionNames[key] || key}</span><span class="dimension-score">${value}/100</span>`;
+                    dimensionsDiv.appendChild(div);
+                });
+                
+                const strengthsList = document.getElementById('strengthsList');
+                strengthsList.innerHTML = '';
+                mockResult.strengths.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    strengthsList.appendChild(li);
+                });
+                
+                const improvementsList = document.getElementById('improvementsList');
+                improvementsList.innerHTML = '';
+                mockResult.improvements.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    improvementsList.appendChild(li);
+                });
+                
+                const suggestionsList = document.getElementById('suggestionsList');
+                suggestionsList.innerHTML = '';
+                mockResult.suggestions.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    suggestionsList.appendChild(li);
+                });
+                
+                document.getElementById('optimizedCode').textContent = mockResult.optimized_code;
+            }, 1500);
+        });
+        
+        function generateMockResult(code) {
+            const score = Math.floor(Math.random() * 20) + 75;
+            
+            return {
+                score: score,
+                dimensions: {
+                    code_understanding: Math.floor(Math.random() * 15) + 80,
+                    logic_analysis: Math.floor(Math.random() * 15) + 78,
+                    debugging_techniques: Math.floor(Math.random() * 15) + 75,
+                    best_practices: Math.floor(Math.random() * 15) + 80,
+                    architecture_design: Math.floor(Math.random() * 15) + 78
+                },
+                strengths: [
+                    '代码结构清晰，逻辑明确',
+                    '变量命名符合规范',
+                    '函数功能单一，职责明确'
+                ],
+                improvements: [
+                    '缺少类型提示',
+                    '建议添加文档字符串',
+                    '部分边界情况未处理'
+                ],
+                suggestions: [
+                    '添加类型提示提高代码可读性',
+                    '为函数添加 docstring 文档',
+                    '添加错误处理和边界检查',
+                    '考虑使用更高效的算法'
+                ],
+                optimized_code: `# 优化后的代码\n${code}\n\n# 改进说明：\n# 1. 添加了类型提示\n# 2. 添加了文档字符串\n# 3. 添加了错误处理\n# 4. 优化了代码结构`
+            };
+        }
+    </script>
+</body>
+</html>

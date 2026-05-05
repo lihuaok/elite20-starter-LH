@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 编程助手 - 主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        .hero .btn {
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .hero .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        .versions {
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .versions h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .versions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .version-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .version-card:hover {
+            background: #667eea;
+            color: white;
+        }
+        .version-card:hover a {
+            color: white;
+        }
+        .version-card .tag {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .version-card a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🤖 AI 编程助手</h1>
+            <p>智能代码分析与优化建议平台</p>
+            <a href="app/index.html" class="btn">开始使用</a>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="icon">🔍</div>
+                <h3>代码评阅</h3>
+                <p>全方位评估代码质量，提供详细评分报告</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🐛</div>
+                <h3>Bug 检测</h3>
+                <p>自动发现潜在问题和边界情况处理</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">✨</div>
+                <h3>最佳实践</h3>
+                <p>检查代码规范，提供优化建议</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🏗️</div>
+                <h3>架构指导</h3>
+                <p>提供模块化和重构建议</p>
+            </div>
+        </div>
+        
+        <div class="versions">
+            <h2>版本历史</h2>
+            <div class="versions-grid">
+                <div class="version-card">
+                    <div class="tag">v5</div>
+                    <a href="app/indexv5.html">最新版</a>
+                </div>
+                <div class="version-card">
+                    <div class="tag">v4</div>
+                    <a href="app/indexv4.html">深色主题</a>
+                </div>
+                <div class="version-card">
+                    <div class="tag">v3</div>
+                    <a href="app/indexv3.html">标准版</a>
+                </div>
+                <div class="version-card">
+                    <div class="tag">v2</div>
+                    <a href="app/indexv2.html">基础版</a>
+                </div>
+                <div class="version-card">
+                    <div class="tag">v1</div>
+                    <a href="app/indexv1.html">初始版</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>基于 DeepSeek 大模型驱动</p>
+            <p><a href="https://github.com/lihuaok/elite20-starter-LH">GitHub 仓库</a></p>
+        </div>
+    </div>
+</body>
+</html>
