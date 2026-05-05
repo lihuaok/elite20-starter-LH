@@ -10,7 +10,7 @@
 
 ## Project Goals
 
-Establish a set of **detailed and traceable AI programming tutoring workflows for the learning process**. Through human-AI collaboration, help learners improve their programming abilities. In the long term, continuously enhance design concepts and technologies to create the best AI programming tutoring workflow.
+Establish a set of **detailed and traceable AI programming tutoring workflows for the learning process**. Through human-AI collaboration, help learners improve their programming abilities. In the long term, continuously enhance design concepts and technologies to create the best AI programming tutoring workflow.
 
 ## Assignment Structure
 
@@ -28,7 +28,7 @@ Establish a set of **detailed and traceable AI programming tutoring workflows fo
 **AI Model**：DeepSeek (Primary)
 **Tutoring Dimensions**：Code Understanding, Logic Analysis, Debugging Techniques, Best Practices, Architecture Design
 **Development Tools**：VS Code, Git, GitHub
-**AI Skills**：code_reviewer, bug_finder, best_practice, architecture_guide
+**AI Skills**：code\_reviewer, bug\_finder, best\_practice, architecture\_guide
 
 ## Completed Assignments
 
@@ -93,7 +93,8 @@ Overall Score: 85/100
 → [K-S-T-A-R Knowledge Star](kstar/D7-kstar-worksheet.md)
 → [Coordination Card](coordinate-cards/D8-coordinate-card.md)
 → [Programming Tutoring Case](artifacts/D9-artifact-trace.md)
+![图片](images/UIINfo.png)
 
----
+***
 
 **Last Updated**：2026-05-01
